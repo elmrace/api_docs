@@ -1,0 +1,4146 @@
+openapi: 3.0.0
+info:
+  title: Payer API Documentation
+  description: Payer API Documentation
+  contact:
+    email: all.support@payer.com.tr
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 2.1.0
+servers:
+  - url: https://payerv2.test
+    description: Payer API Server
+paths:
+  "/api/v2/cargo/providers":
+    get:
+      tags:
+        - Cargo Endpoints For WMS
+      summary: Get Cargo Providers
+      description: Get cargo providers
+      operationId: f7d0351b7485c225528a705efb521c79
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        provider:
+                          format: string
+                      type: object
+                type: object
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - Cargo Endpoints For WMS
+      summary: Post Cargo Providers
+      description: Providers Cargo Package
+      operationId: d70bb4e1d4596e5f8e5e546a264dc9f6
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CargoClientRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  provider:
+                    format: string
+                  api_usernmae:
+                    format: string
+                  api_password:
+                    format: string
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/cargo/packageinfo":
+    get:
+      tags:
+        - Cargo Endpoints For WMS
+      summary: Get Package Info
+      description: Get cargo package info
+      operationId: ff9c91e3562646d7238693d749abd622
+      parameters:
+        - name: provider_name
+          in: query
+          description: Cargo Provider
+          required: true
+          schema:
+            type: string
+        - name: tracking_number
+          in: query
+          description: Tracking Number
+          required: false
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: Date
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        exit_branch:
+                          format: string
+                        exit_date:
+                          format: date
+                        volume_metric:
+                          format: number
+                        invoice_type:
+                          format: string
+                        sender:
+                          format: string
+                        arrival_branch:
+                          format: string
+                        receiver:
+                          format: string
+                        receiver_address:
+                          format: string
+                        transactions:
+                          type: array
+                          items:
+                            properties:
+                              date:
+                                format: date
+                              unit:
+                                format: string
+                              description:
+                                format: string
+                            type: object
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/cargo/prepare":
+    post:
+      tags:
+        - Cargo Endpoints For WMS
+      summary: Prapare Cargo Package
+      description: Prepare Cargo Package
+      operationId: 41aed1c039c97d7ba3f6e576e2b0f59a
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CargoRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  tracking_number:
+                    format: boolean
+                  message:
+                    format: string
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/cargo/providers/{id}":
+    put:
+      tags:
+        - Cargo Endpoints For WMS
+      summary: Update Cargo Providers
+      description: Update Cargo
+      operationId: 1c895873b927a92f9f6c9721192039c6
+      parameters:
+        - name: id
+          in: path
+          description: Cargo ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CargoClientRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: id
+                    format: string
+                    default: 20d338931e
+                  username:
+                    description: username
+                    format: string
+                    default: ClientID
+                  passsword:
+                    description: Client Screet
+                    format: string
+                    default: Client Screet
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v3/cargo/providers":
+    get:
+      tags:
+        - Cargo Endpoints
+      summary: Cargo Providers
+      description: Get cargo providers
+      operationId: d8fa042c4af9ef4a0abdd5a93e2f1f03
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        provider:
+                          format: string
+                      type: object
+                type: object
+      security:
+        - bearerAuth: []
+  "/api/v4/cargo/packageinfo":
+    get:
+      tags:
+        - Cargo Endpoints
+      summary: Get Package Info
+      description: Get cargo package info
+      operationId: 6810644a2e5a0b1f214dfd51ab79b286
+      parameters:
+        - name: provider
+          in: query
+          description: Cargo Provider
+          required: true
+          schema:
+            type: string
+        - name: trackingNumber
+          in: query
+          description: Tracking Number
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: {}
+                  errorCode: {}
+                  errorMessage: {}
+                  date: {}
+                  deliveryInformation: {}
+                  trackingNumber: {}
+                  referenceNumber: {}
+                  waybill: {}
+                  status: {}
+                  deliveryUnitName: {}
+                  deliveryUnitPhone: {}
+                  sourceUnitName: {}
+                  sourceUnitPhone: {}
+                  numberOfPackage: {}
+                  desi: {}
+                  shipmentCost: {}
+                  shipmentCostCurrency: {}
+                  reasonForReturn: {}
+                  reasonForTransfer: {}
+                  transactions:
+                    type: array
+                    items:
+                      properties:
+                        date: {}
+                        unit: {}
+                        description: {}
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v3/cargo/prepare":
+    post:
+      tags:
+        - Cargo Endpoints
+      summary: Prepare Cargo Package
+      description: Prepare Cargo Package
+      operationId: 830d27184b65b38b2b2c1c5577e5684e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PrepareCargoRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PrepareCargoResponse"
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/definitions/brands":
+    get:
+      tags:
+        - Definitions Endpoints
+      summary: Get Brands
+      description: Get all brands
+      operationId: a9a584f00b6ae493164bfd4bc1b94707
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          description: id
+                          format: string
+                          default: 20d338931e
+                        name:
+                          description: name
+                          format: string
+                          default: Test Brand
+                        description:
+                          description: description
+                          format: string
+                          default: Test Brand Description
+                        created_at:
+                          format: date
+                        updated_at:
+                          format: date
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - Definitions Endpoints
+      summary: Create Brand
+      description: Create new brand
+      operationId: 9fbf10ea6e48ccf286cedbc5fc951e21
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/BrandRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: id
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: name
+                    format: string
+                    default: Test Brand
+                  description:
+                    description: description
+                    format: string
+                    default: Test Brand Description
+                  is_transferred:
+                    format: booled
+                    default: false
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/definitions/brands/{id}":
+    get:
+      tags:
+        - Definitions Endpoints
+      summary: Get Brand By Id
+      description: Get brand by id
+      operationId: c59e381e9f093083874830e3ea83f442
+      parameters:
+        - name: id
+          in: path
+          description: Brand ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: id
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: name
+                    format: string
+                    default: Test Brand
+                  description:
+                    description: description
+                    format: string
+                    default: Test Brand Description
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - Definitions Endpoints
+      summary: Update Brand
+      description: Update brand
+      operationId: a702f00c70d8bdcc2ae9ae4db6b24081
+      parameters:
+        - name: id
+          in: path
+          description: Brand ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/BrandRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: id
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: name
+                    format: string
+                    default: Test Brand
+                  description:
+                    description: description
+                    format: string
+                    default: Test Brand Description
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - Definitions Endpoints
+      summary: Delete Brand
+      description: Delete brand
+      operationId: 9053a850a93fed51668ae21ea345a3f0
+      parameters:
+        - name: id
+          in: path
+          description: Brand ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: id
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: name
+                    format: string
+                    default: Test Brand
+                  description:
+                    description: description
+                    format: string
+                    default: Test Brand Description
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/definitions/categories":
+    get:
+      tags:
+        - Definitions Endpoints
+      summary: Get Categories
+      description: Get all categories
+      operationId: 6ae32979a8dfd03ef2ec751c1b6f84b4
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          description: ID
+                          format: string
+                          default: 20d338931e
+                        name:
+                          description: Name
+                          format: string
+                          default: Test Category
+                        description:
+                          description: Description
+                          format: string
+                          default: Test Category Description
+                        parent_id:
+                          description: Parent ID
+                          format: string
+                          default: 20d338931f
+                        price_percent:
+                          description: Price Percent
+                          format: float
+                          default: "0.0"
+                        price:
+                          description: Price
+                          format: float
+                          default: "0.0"
+                        created_at:
+                          format: date
+                        updated_at:
+                          format: date
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - Definitions Endpoints
+      summary: Create Category
+      description: Create new Category
+      operationId: 268799d1cf92bb92b315339cd6d605d9
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CategoryRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: ID
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: Name
+                    format: string
+                    default: Test Category
+                  description:
+                    description: Description
+                    format: string
+                    default: Test Category Description
+                  parent_id:
+                    description: Parent ID
+                    format: string
+                    default: 20d338931f
+                  price_percent:
+                    description: Price Percent
+                    format: float
+                    default: "0.0"
+                  price:
+                    description: Price
+                    format: float
+                    default: "0.0"
+                  is_transferred:
+                    description: Transferred
+                    format: booled
+                    default: false
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/definitions/categories/{id}":
+    get:
+      tags:
+        - Definitions Endpoints
+      summary: Get Category By Id
+      description: Get category by id
+      operationId: d1eb3782e5a1bce077c058b64f05329e
+      parameters:
+        - name: id
+          in: path
+          description: Category ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: ID
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: Name
+                    format: string
+                    default: Test Category
+                  description:
+                    description: Description
+                    format: string
+                    default: Test Category Description
+                  parent_id:
+                    description: Parent ID
+                    format: string
+                    default: 20d338931f
+                  price_percent:
+                    description: Price Percent
+                    format: float
+                    default: "0.0"
+                  price:
+                    description: Price
+                    format: float
+                    default: "0.0"
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - Definitions Endpoints
+      summary: Update Category
+      description: Update Category
+      operationId: 1316091e1a61b0459b6ea875a4a5dac3
+      parameters:
+        - name: id
+          in: path
+          description: Category ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CategoryRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: ID
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: Name
+                    format: string
+                    default: Test Category
+                  description:
+                    description: Description
+                    format: string
+                    default: Test Category Description
+                  parent_id:
+                    description: Parent ID
+                    format: string
+                    default: 20d338931f
+                  price_percent:
+                    description: Price Percent
+                    format: float
+                    default: "0.0"
+                  price:
+                    description: Price
+                    format: float
+                    default: "0.0"
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - Definitions Endpoints
+      summary: Delete Category
+      description: Delete Category
+      operationId: e75a906162023b0b16a436f9698c7cc8
+      parameters:
+        - name: id
+          in: path
+          description: Category ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: ID
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: Name
+                    format: string
+                    default: Test Category
+                  description:
+                    description: Description
+                    format: string
+                    default: Test Category Description
+                  parent_id:
+                    description: Parent ID
+                    format: string
+                    default: 20d338931f
+                  price_percent:
+                    description: Price Percent
+                    format: float
+                    default: "0.0"
+                  price:
+                    description: Price
+                    format: float
+                    default: "0.0"
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/definitions/customfields":
+    get:
+      tags:
+        - Definitions Endpoints
+      summary: Get Custom Fields
+      description: Get all Custom Fields
+      operationId: dc5e4b5922ba782091e102ec5838c4d5
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          description: ID
+                          format: string
+                          default: 20d338931e
+                        name:
+                          description: Name
+                          format: string
+                          default: Test Custom Field
+                        description:
+                          description: Description
+                          format: string
+                          default: Test Category Description
+                        is_transferred:
+                          description: is_transferred
+                          format: integer
+                          default: "0"
+                        values:
+                          type: array
+                          items:
+                            properties:
+                              id:
+                                description: ID
+                                format: string
+                                default: 20d338931f
+                              name:
+                                description: Name
+                                format: string
+                                default: Test Custom Field Value
+                            type: object
+                        created_at:
+                          format: date
+                        updated_at:
+                          format: date
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - Definitions Endpoints
+      summary: Create Custom Field
+      description: Create new Custom Field
+      operationId: f33440ad39dfe5e2e76e8ddeaa4782f9
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CustomFieldRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: ID
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: Name
+                    format: string
+                    default: Test Custom Field
+                  description:
+                    description: Description
+                    format: string
+                    default: Test Category Description
+                  is_transferred:
+                    description: is_transferred
+                    format: integer
+                    default: "0"
+                  values:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          description: ID
+                          format: string
+                          default: 20d338931f
+                        name:
+                          description: Name
+                          format: string
+                          default: Test Custom Field Value
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/definitions/customfieldsFiltered":
+    post:
+      tags:
+        - Definitions Endpoints
+      summary: Get Custom Field By Filterd
+      description: Post Custom Fields Filtered
+      operationId: 4b851427151b815be144db5325e826cd
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          description: ID
+                          format: string
+                          default: 20d338931e
+                        name:
+                          description: Name
+                          format: string
+                          default: Test Custom Field
+                        description:
+                          description: Description
+                          format: string
+                          default: Test Category Description
+                        is_transferred:
+                          description: is_transferred
+                          format: integer
+                          default: "0"
+                        values:
+                          type: array
+                          items:
+                            properties:
+                              id:
+                                description: ID
+                                format: string
+                                default: 20d338931f
+                              name:
+                                description: Name
+                                format: string
+                                default: Test Custom Field Value
+                            type: object
+                        created_at:
+                          format: date
+                        updated_at:
+                          format: date
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/definitions/customfields/{id}":
+    get:
+      tags:
+        - Definitions Endpoints
+      summary: Get Custom Field By Id
+      description: Get Custom Field by id
+      operationId: f974a5930c401713a4ae30268006a3b8
+      parameters:
+        - name: id
+          in: path
+          description: Custom Field ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: ID
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: Name
+                    format: string
+                    default: Test Custom Field
+                  description:
+                    description: Description
+                    format: string
+                    default: Test Category Description
+                  is_transferred:
+                    description: is_transferred
+                    format: integer
+                    default: "0"
+                  values:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          format: string
+                        name:
+                          format: string
+                      type: object
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - Definitions Endpoints
+      summary: Update Custom Field
+      description: Update Custom Field
+      operationId: 7061c5587ba9fb1fb78213de618157c8
+      parameters:
+        - name: id
+          in: path
+          description: Custom Field ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CustomFieldRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: ID
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: Name
+                    format: string
+                    default: Test Custom Field
+                  description:
+                    description: Description
+                    format: string
+                    default: Test Category Description
+                  is_transferred:
+                    description: is_transferred
+                    format: integer
+                    default: "0"
+                  values:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          description: ID
+                          format: string
+                          default: 20d338931f
+                        name:
+                          description: Name
+                          format: string
+                          default: Test Custom Field Value
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - Definitions Endpoints
+      summary: Delete Custom Field
+      description: Delete Custom Field
+      operationId: 35d11ff26ec3a4befac0ee46dcd9d9d1
+      parameters:
+        - name: id
+          in: path
+          description: Custom Field ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CustomFieldRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: ID
+                    format: string
+                    default: 20d338931e
+                  name:
+                    description: Name
+                    format: string
+                    default: Test Custom Field
+                  description:
+                    description: Description
+                    format: string
+                    default: Test Category Description
+                  is_transferred:
+                    description: is_transferred
+                    format: integer
+                    default: "0"
+                  values:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          description: ID
+                          format: string
+                          default: 20d338931f
+                        name:
+                          description: Name
+                          format: string
+                          default: Test Custom Field Value
+                      type: object
+                  created_at:
+                    format: date
+                  updated_at:
+                    format: date
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/definitions/customfieldsvalue/{id}":
+    post:
+      tags:
+        - Definitions Endpoints
+      summary: Create Custom Field Value
+      description: Create new Custom Field Value
+      operationId: 1bcd7c00ab6090e73ee40dd057c94852
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CustomFieldValuesRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  values:
+                    type: array
+                    items:
+                      properties:
+                        name:
+                          description: ID
+                          format: string
+                          default: name
+                        is_transferred:
+                          description: Name
+                          format: string
+                          default: "0"
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - Definitions Endpoints
+      summary: Delete Custom Field Value
+      description: Delete Custom Field Value
+      operationId: 54abb2955ffc3974f229ab463e9a643c
+      parameters:
+        - name: id
+          in: path
+          description: Custom Field Value ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CustomFieldRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  values:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          description: ID
+                          format: string
+                          default: 61e98ad19f213
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/definitions/taxes":
+    get:
+      tags:
+        - Definitions Endpoints
+      summary: Get Taxes
+      description: Get all tax rates
+      operationId: 2ded9a1adbc4befb1f4fcaf658be1592
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          format: string
+                        rate:
+                          format: integer
+                          default: "18"
+                        created_at:
+                          format: date
+                        updated_at:
+                          format: date
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/definitions/taxes/{id}":
+    get:
+      tags:
+        - Definitions Endpoints
+      summary: Get Tax By Id
+      description: Get tax rate by id
+      operationId: eb7dfdef51ea948c113ca5c31464097c
+      parameters:
+        - name: id
+          in: path
+          description: Brand ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          format: string
+                        rate:
+                          format: integer
+                          default: "18"
+                        created_at:
+                          format: date
+                        updated_at:
+                          format: date
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/orders":
+    get:
+      tags:
+        - Orders Endpoints
+      summary: Get Orders
+      description: Get all orders
+      operationId: 2ab2d4ee79d4368a17ae70fd42bf6113
+      parameters:
+        - name: page
+          in: query
+          description: Current Page
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Order Status
+          required: false
+          allowEmptyValue: true
+          schema:
+            type: string
+            enum:
+              - new
+              - ready
+              - delayed
+              - shipped
+              - finished
+              - canceled
+              - return
+              - problem
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        customer:
+                          properties:
+                            name:
+                              type: string
+                            email:
+                              type: string
+                            phone:
+                              type: string
+                            address:
+                              type: string
+                            district:
+                              type: string
+                            city:
+                              type: string
+                            tax_office:
+                              type: string
+                            tax_number:
+                              type: string
+                          type: object
+                        date:
+                          format: date
+                        number:
+                          format: string
+                        marketplace:
+                          format: string
+                        invoice_integration:
+                          format: string
+                        invoice_integration_id:
+                          format: string
+                        cargo_provider_name:
+                          format: string
+                        cargo_tracking_number:
+                          format: string
+                        delivery_name:
+                          format: string
+                        delivery_address:
+                          format: string
+                        delivery_phone:
+                          format: string
+                        invoice_name:
+                          format: string
+                        invoice_address:
+                          format: string
+                        invoice_phone:
+                          format: string
+                        order_status:
+                          format: string
+                        description:
+                          format: string
+                        invoice_description:
+                          format: string
+                        order_total:
+                          format: number
+                        discount_total:
+                          format: number
+                        cargo_total:
+                          format: number
+                        payment_total:
+                          format: number
+                        is_transferred:
+                          format: booled
+                          default: false
+                        pdf:
+                          format: string
+                        lines:
+                          type: array
+                          items:
+                            properties:
+                              product_id:
+                                format: string
+                              variant_id:
+                                format: string
+                              amount:
+                                format: string
+                              price:
+                                format: string
+                            type: object
+                        created_at:
+                          description: Created Date
+                          format: date
+                          default: 2022-01-01 00:00
+                        updated_at:
+                          description: Updated Date
+                          format: date
+                          default: 2022-01-01 00:00
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/orders/{id}":
+    get:
+      tags:
+        - Orders Endpoints
+      summary: Get Order By Id
+      description: Get order by id
+      operationId: c8348abf923736300012547b4da587c5
+      parameters:
+        - name: id
+          in: path
+          description: Order ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  customer:
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      phone:
+                        type: string
+                      address:
+                        type: string
+                      district:
+                        type: string
+                      city:
+                        type: string
+                      tax_office:
+                        type: string
+                      tax_number:
+                        type: string
+                    type: object
+                  date:
+                    format: date
+                  number:
+                    format: string
+                  marketplace:
+                    format: string
+                  invoice_integration:
+                    format: string
+                  invoice_integration_id:
+                    format: string
+                  cargo_provider_name:
+                    format: string
+                  cargo_tracking_number:
+                    format: string
+                  delivery_name:
+                    format: string
+                  delivery_address:
+                    format: string
+                  delivery_phone:
+                    format: string
+                  invoice_name:
+                    format: string
+                  invoice_address:
+                    format: string
+                  invoice_phone:
+                    format: string
+                  order_status:
+                    format: string
+                  description:
+                    format: string
+                  invoice_description:
+                    format: string
+                  pdf:
+                    format: string
+                  order_total:
+                    format: number
+                  discount_total:
+                    format: number
+                  cargo_total:
+                    format: number
+                  payment_total:
+                    format: number
+                  lines:
+                    type: array
+                    items:
+                      properties:
+                        product_id:
+                          format: string
+                        variant_id:
+                          format: string
+                        amount:
+                          format: string
+                        price:
+                          format: string
+                      type: object
+                  created_at:
+                    description: Created Date
+                    format: date
+                    default: 2022-01-01 00:00
+                  updated_at:
+                    description: Updated Date
+                    format: date
+                    default: 2022-01-01 00:00
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - Orders Endpoints
+      summary: Updte Order
+      description: Put order by id
+      operationId: 5d49e545091154c1241f0960ca12c2f6
+      parameters:
+        - name: id
+          in: path
+          description: Order ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  customer:
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      phone:
+                        type: string
+                      address:
+                        type: string
+                      district:
+                        type: string
+                      city:
+                        type: string
+                      tax_office:
+                        type: string
+                      tax_number:
+                        type: string
+                    type: object
+                  date:
+                    format: date
+                  number:
+                    format: string
+                  marketplace:
+                    format: string
+                  invoice_integration:
+                    format: string
+                  invoice_integration_id:
+                    format: string
+                  cargo_provider_name:
+                    format: string
+                  cargo_tracking_number:
+                    format: string
+                  delivery_name:
+                    format: string
+                  delivery_address:
+                    format: string
+                  delivery_phone:
+                    format: string
+                  invoice_name:
+                    format: string
+                  invoice_address:
+                    format: string
+                  invoice_phone:
+                    format: string
+                  order_status:
+                    format: string
+                  description:
+                    format: string
+                  invoice_description:
+                    format: string
+                  order_total:
+                    format: number
+                  discount_total:
+                    format: number
+                  cargo_total:
+                    format: number
+                  payment_total:
+                    format: number
+                  is_transferred:
+                    format: string
+                  pdf:
+                    format: string
+                  lines:
+                    type: array
+                    items:
+                      properties:
+                        product_id:
+                          format: string
+                        amount:
+                          format: string
+                        price:
+                          format: string
+                      type: object
+                  created_at:
+                    description: Created Date
+                    format: date
+                    default: 2022-01-01 00:00
+                  updated_at:
+                    description: Updated Date
+                    format: date
+                    default: 2022-01-01 00:00
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/orderFiltered":
+    post:
+      tags:
+        - Orders Endpoints
+      summary: Get Order By Filtered
+      description: Filter by order
+      operationId: 49ded01c2e27523b06141dda19d44ece
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/OrderRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        customer:
+                          properties:
+                            name:
+                              type: string
+                            email:
+                              type: string
+                            phone:
+                              type: string
+                            address:
+                              type: string
+                            district:
+                              type: string
+                            city:
+                              type: string
+                            tax_office:
+                              type: string
+                            tax_number:
+                              type: string
+                          type: object
+                        date:
+                          format: date
+                        number:
+                          format: string
+                        marketplace:
+                          format: string
+                        invoice_integration:
+                          format: string
+                        invoice_integration_id:
+                          format: string
+                        cargo_provider_name:
+                          format: string
+                        cargo_tracking_number:
+                          format: string
+                        delivery_name:
+                          format: string
+                        delivery_address:
+                          format: string
+                        delivery_phone:
+                          format: string
+                        invoice_name:
+                          format: string
+                        invoice_address:
+                          format: string
+                        invoice_phone:
+                          format: string
+                        order_status:
+                          format: string
+                        description:
+                          format: string
+                        invoice_description:
+                          format: string
+                        order_total:
+                          format: number
+                        discount_total:
+                          format: number
+                        cargo_total:
+                          format: number
+                        payment_total:
+                          format: number
+                        is_transferred:
+                          format: booled
+                          default: false
+                        pdf:
+                          format: string
+                        lines:
+                          type: array
+                          items:
+                            properties:
+                              product_id:
+                                format: string
+                              variant_id:
+                                format: string
+                              amount:
+                                format: string
+                              price:
+                                format: string
+                            type: object
+                        created_at:
+                          description: Created Date
+                          format: date
+                          default: 2022-01-01 00:00
+                        updated_at:
+                          description: Updated Date
+                          format: date
+                          default: 2022-01-01 00:00
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/products":
+    get:
+      tags:
+        - Products Endpoints
+      summary: Get Products
+      description: Get all products
+      operationId: 230ff5aa44f11800368ef9a67449a502
+      parameters:
+        - name: page
+          in: query
+          description: Current Page
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        is_variant:
+                          description: Product variant status
+                          format: string
+                          default: "false"
+                        status:
+                          description: Product Status
+                          format: integer
+                          default: "0"
+                        name:
+                          description: Product Name
+                          format: string
+                          default: Product Name
+                        subtitle:
+                          description: Product Sub Title
+                          format: string
+                          default: Product Sub Title
+                        description:
+                          description: Product Marketplace Description
+                          format: string
+                          default: Product Marketplace Description
+                        barcode:
+                          description: Barcode
+                          format: string
+                          default: BR-1234567890
+                        sku:
+                          description: SKU
+                          format: string
+                          default: SK-123456789
+                        unit_code:
+                          description: Unit Code
+                          format: string
+                          default: Adet
+                        stock_amount:
+                          description: Stock Amount
+                          format: integer
+                          default: "0"
+                        remining_amount:
+                          description: Remining Amount
+                          format: integer
+                          default: "0"
+                        mainImage:
+                          description: Product MainImage
+                          format: string
+                          default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+                        thumbnail_image:
+                          description: Thumbnail Image
+                          format: string
+                          default: 606d98cde7ffd/products/606d9ed034051/main_thumbnail.jpg
+                        name_on_invoice:
+                          description: Name On Invoice
+                          format: string
+                          default: Name On Invoice
+                        price:
+                          description: List Price
+                          format: integer
+                          default: "0"
+                        purchase_price:
+                          description: Purchase Price
+                          format: integer
+                          default: "0"
+                        market_price:
+                          description: Marketplace Price
+                          format: integer
+                          default: "0"
+                        currency:
+                          description: Curreny Type
+                          format: string
+                          default: TL
+                        max_sales_amount:
+                          description: Max Sales Amount
+                          format: integer
+                          default: "0"
+                        srock_reduction_amount:
+                          description: Stock Reduction Amount
+                          format: integer
+                          default: "0"
+                        category_id:
+                          description: Category ID
+                          format: string
+                          default: 20d338931e
+                        brand_id:
+                          description: Brand ID
+                          format: string
+                          default: 20d338931e
+                        tax:
+                          description: Tax Rate
+                          format: string
+                          default: "18"
+                        width:
+                          description: Width
+                          format: integer
+                          default: "0"
+                        height:
+                          description: Height
+                          format: integer
+                          default: "0"
+                        weight:
+                          description: Weight
+                          format: integer
+                          default: "0"
+                        volumetric_weight:
+                          description: Volumetric Weight
+                          format: integer
+                          default: "0"
+                        length:
+                          description: Length
+                          format: integer
+                          default: "0"
+                        mpn:
+                          description: MPN
+                          format: string
+                          default: MPN-123123123
+                        is_entegrated:
+                          description: is_entegrated
+                          format: string
+                          default: "false"
+                        discount_option:
+                          description: Discount Type
+                          format: integer
+                          default: "0"
+                        discount_percent:
+                          description: Discount Type
+                          format: integer
+                          default: "0"
+                        created_at:
+                          description: Created Date
+                          format: date
+                          default: 2022-01-01 00:00
+                        updated_at:
+                          description: Updated Date
+                          format: date
+                          default: 2022-01-01 00:00
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - Products Endpoints
+      summary: Create Product
+      description: Create product
+      operationId: 194f0a86502f887450612c39109fbebd
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  is_variant:
+                    description: Product variant status
+                    format: string
+                    default: "false"
+                  status:
+                    description: Product Status
+                    format: integer
+                    default: "0"
+                  name:
+                    description: Product Name
+                    format: string
+                    default: Product Name
+                  subtitle:
+                    description: Product Sub Title
+                    format: string
+                    default: Product Sub Title
+                  description:
+                    description: Product Marketplace Description
+                    format: string
+                    default: Product Marketplace Description
+                  barcode:
+                    description: Barcode
+                    format: string
+                    default: BR-1234567890
+                  sku:
+                    description: SKU
+                    format: string
+                    default: SK-123456789
+                  unit_code:
+                    description: Unit Code
+                    format: string
+                    default: Adet
+                  stock_amount:
+                    description: Stock Amount
+                    format: integer
+                    default: "0"
+                  remining_amount:
+                    description: Remining Amount
+                    format: integer
+                    default: "0"
+                  mainImage:
+                    description: Product MainImage
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+                  thumbnail_image:
+                    description: Thumbnail Image
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed034051/main_thumbnail.jpg
+                  name_on_invoice:
+                    description: Name On Invoice
+                    format: string
+                    default: Name On Invoice
+                  price:
+                    description: List Price
+                    format: integer
+                    default: "0"
+                  purchase_price:
+                    description: Purchase Price
+                    format: integer
+                    default: "0"
+                  market_price:
+                    description: Marketplace Price
+                    format: integer
+                    default: "0"
+                  currency:
+                    description: Curreny Type
+                    format: string
+                    default: TL
+                  max_sales_amount:
+                    description: Max Sales Amount
+                    format: integer
+                    default: "0"
+                  stock_reduction_amount:
+                    description: Stock Reduction Amount
+                    format: integer
+                    default: "0"
+                  category_id:
+                    description: Category ID
+                    format: string
+                    default: 20d338931e
+                  brand_id:
+                    description: Brand ID
+                    format: string
+                    default: 20d338931e
+                  tax:
+                    description: Tax Rate
+                    format: string
+                    default: "18"
+                  width:
+                    description: Width
+                    format: integer
+                    default: "0"
+                  height:
+                    description: Height
+                    format: integer
+                    default: "0"
+                  weight:
+                    description: Weight
+                    format: integer
+                    default: "0"
+                  length:
+                    description: Length
+                    format: integer
+                    default: "0"
+                  mpn:
+                    description: MPN
+                    format: string
+                    default: MPN-123123123
+                  discount_option:
+                    description: Discount Type
+                    format: integer
+                    default: "0"
+                  discount_percent:
+                    description: Discount Type
+                    format: integer
+                    default: "0"
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/products/{id}":
+    get:
+      tags:
+        - Products Endpoints
+      summary: Get Product By Id
+      description: Get product by id
+      operationId: 7941359253d9bb0a5e07ccd49faf902e
+      parameters:
+        - name: id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  is_variant:
+                    description: Product variant status
+                    format: string
+                    default: "false"
+                  status:
+                    description: Product Status
+                    format: integer
+                    default: "0"
+                  name:
+                    description: Product Name
+                    format: string
+                    default: Product Name
+                  subtitle:
+                    description: Product Sub Title
+                    format: string
+                    default: Product Sub Title
+                  description:
+                    description: Product Marketplace Description
+                    format: string
+                    default: Product Marketplace Description
+                  barcode:
+                    description: Barcode
+                    format: string
+                    default: BR-1234567890
+                  sku:
+                    description: SKU
+                    format: string
+                    default: SK-123456789
+                  unit_code:
+                    description: Unit Code
+                    format: string
+                    default: Adet
+                  stock_amount:
+                    description: Stock Amount
+                    format: integer
+                    default: "0"
+                  remining_amount:
+                    description: Remining Amount
+                    format: integer
+                    default: "0"
+                  mainImage:
+                    description: Product MainImage
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+                  thumbnail_image:
+                    description: Thumbnail Image
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed034051/main_thumbnail.jpg
+                  name_on_invoice:
+                    description: Name On Invoice
+                    format: string
+                    default: Name On Invoice
+                  price:
+                    description: List Price
+                    format: integer
+                    default: "0"
+                  purchase_price:
+                    description: Purchase Price
+                    format: integer
+                    default: "0"
+                  market_price:
+                    description: Marketplace Price
+                    format: integer
+                    default: "0"
+                  currency:
+                    description: Curreny Type
+                    format: string
+                    default: TL
+                  max_sales_amount:
+                    description: Max Sales Amount
+                    format: integer
+                    default: "0"
+                  srock_reduction_amount:
+                    description: Stock Reduction Amount
+                    format: integer
+                    default: "0"
+                  category_id:
+                    description: Category ID
+                    format: string
+                    default: 20d338931e
+                  brand_id:
+                    description: Brand ID
+                    format: string
+                    default: 20d338931e
+                  tax:
+                    description: Tax Rate
+                    format: string
+                    default: "18"
+                  width:
+                    description: Width
+                    format: integer
+                    default: "0"
+                  height:
+                    description: Height
+                    format: integer
+                    default: "0"
+                  weight:
+                    description: Weight
+                    format: integer
+                    default: "0"
+                  volumentric_weight:
+                    description: Volumetric Weight
+                    format: integer
+                    default: "0"
+                  length:
+                    description: Length
+                    format: integer
+                    default: "0"
+                  mpn:
+                    description: MPN
+                    format: string
+                    default: MPN-123123123
+                  is_entegrated:
+                    description: is_entegrated
+                    format: string
+                    default: "false"
+                  discount_option:
+                    description: Discount Type
+                    format: integer
+                    default: "0"
+                  discount_percent:
+                    description: Discount Type
+                    format: integer
+                    default: "0"
+                  created_at:
+                    description: Created Date
+                    format: date
+                    default: 2022-01-01 00:00
+                  updated_at:
+                    description: Updated Date
+                    format: date
+                    default: 2022-01-01 00:00
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - Products Endpoints
+      summary: Update Product
+      description: Update Product
+      operationId: 82f861e6bb2d590bf29d0b3b1491457c
+      parameters:
+        - name: id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  is_variant:
+                    description: Product variant status
+                    format: string
+                    default: "false"
+                  status:
+                    description: Product Status
+                    format: integer
+                    default: "0"
+                  name:
+                    description: Product Name
+                    format: string
+                    default: Product Name
+                  subtitle:
+                    description: Product Sub Title
+                    format: string
+                    default: Product Sub Title
+                  description:
+                    description: Product Marketplace Description
+                    format: string
+                    default: Product Marketplace Description
+                  barcode:
+                    description: Barcode
+                    format: string
+                    default: BR-1234567890
+                  sku:
+                    description: SKU
+                    format: string
+                    default: SK-123456789
+                  unit_code:
+                    description: Unit Code
+                    format: string
+                    default: Adet
+                  stock_amount:
+                    description: Stock Amount
+                    format: integer
+                    default: "0"
+                  remining_amount:
+                    description: Remining Amount
+                    format: integer
+                    default: "0"
+                  mainImage:
+                    description: Product MainImage
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+                  thumbnail_image:
+                    description: Thumbnail Image
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed034051/main_thumbnail.jpg
+                  name_on_invoice:
+                    description: Name On Invoice
+                    format: string
+                    default: Name On Invoice
+                  price:
+                    description: List Price
+                    format: integer
+                    default: "0"
+                  purchase_price:
+                    description: Purchase Price
+                    format: integer
+                    default: "0"
+                  market_price:
+                    description: Marketplace Price
+                    format: integer
+                    default: "0"
+                  currency:
+                    description: Curreny Type
+                    format: string
+                    default: TL
+                  max_sales_amount:
+                    description: Max Sales Amount
+                    format: integer
+                    default: "0"
+                  srock_reduction_amount:
+                    description: Stock Reduction Amount
+                    format: integer
+                    default: "0"
+                  category_id:
+                    description: Category ID
+                    format: string
+                    default: 20d338931e
+                  brand_id:
+                    description: Brand ID
+                    format: string
+                    default: 20d338931e
+                  tax:
+                    description: Tax Rate
+                    format: string
+                    default: "18"
+                  width:
+                    description: Width
+                    format: integer
+                    default: "0"
+                  height:
+                    description: Height
+                    format: integer
+                    default: "0"
+                  weight:
+                    description: Weight
+                    format: integer
+                    default: "0"
+                  length:
+                    description: Length
+                    format: integer
+                    default: "0"
+                  mpn:
+                    description: MPN
+                    format: string
+                    default: MPN-123123123
+                  is_entegrated:
+                    description: is_entegrated
+                    format: string
+                    default: "false"
+                  discount_option:
+                    description: Discount Type
+                    format: integer
+                    default: "0"
+                  discount_percent:
+                    description: Discount Type
+                    format: integer
+                    default: "0"
+                  created_at:
+                    description: Created Date
+                    format: date
+                    default: 2022-01-01 00:00
+                  updated_at:
+                    description: Updated Date
+                    format: date
+                    default: 2022-01-01 00:00
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - Products Endpoints
+      summary: Delete Product
+      description: Delete product
+      operationId: 4570aafc1c021dc8427634ee7857e2b7
+      parameters:
+        - name: id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  is_variant:
+                    description: Product variant status
+                    format: string
+                    default: "false"
+                  status:
+                    description: Product Status
+                    format: integer
+                    default: "0"
+                  name:
+                    description: Product Name
+                    format: string
+                    default: Product Name
+                  subtitle:
+                    description: Product Sub Title
+                    format: string
+                    default: Product Sub Title
+                  description:
+                    description: Product Marketplace Description
+                    format: string
+                    default: Product Marketplace Description
+                  barcode:
+                    description: Barcode
+                    format: string
+                    default: BR-1234567890
+                  sku:
+                    description: SKU
+                    format: string
+                    default: SK-123456789
+                  unit_code:
+                    description: Unit Code
+                    format: string
+                    default: Adet
+                  stock_amount:
+                    description: Stock Amount
+                    format: integer
+                    default: "0"
+                  remining_amount:
+                    description: Remining Amount
+                    format: integer
+                    default: "0"
+                  mainImage:
+                    description: Product MainImage
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+                  thumbnail_image:
+                    description: Thumbnail Image
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed034051/main_thumbnail.jpg
+                  name_on_invoice:
+                    description: Name On Invoice
+                    format: string
+                    default: Name On Invoice
+                  price:
+                    description: List Price
+                    format: integer
+                    default: "0"
+                  purchase_price:
+                    description: Purchase Price
+                    format: integer
+                    default: "0"
+                  market_price:
+                    description: Marketplace Price
+                    format: integer
+                    default: "0"
+                  currency:
+                    description: Curreny Type
+                    format: string
+                    default: TL
+                  max_sales_amount:
+                    description: Max Sales Amount
+                    format: integer
+                    default: "0"
+                  srock_reduction_amount:
+                    description: Stock Reduction Amount
+                    format: integer
+                    default: "0"
+                  category_id:
+                    description: Category ID
+                    format: string
+                    default: 20d338931e
+                  brand_id:
+                    description: Brand ID
+                    format: string
+                    default: 20d338931e
+                  tax:
+                    description: Tax Rate
+                    format: string
+                    default: "18"
+                  width:
+                    description: Width
+                    format: integer
+                    default: "0"
+                  height:
+                    description: Height
+                    format: integer
+                    default: "0"
+                  weight:
+                    description: Weight
+                    format: integer
+                    default: "0"
+                  length:
+                    description: Length
+                    format: integer
+                    default: "0"
+                  mpn:
+                    description: MPN
+                    format: string
+                    default: MPN-123123123
+                  is_entegrated:
+                    description: is_entegrated
+                    format: string
+                    default: "false"
+                  discount_option:
+                    description: Discount Type
+                    format: integer
+                    default: "0"
+                  created_at:
+                    description: Created Date
+                    format: date
+                    default: 2022-01-01 00:00
+                  updated_at:
+                    description: Updated Date
+                    format: date
+                    default: 2022-01-01 00:00
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/productVariants":
+    get:
+      tags:
+        - Products Endpoints
+      summary: Get Product Variants
+      description: Get all variant
+      operationId: 3d02c143e8e5b6a99b792a2a372d6907
+      parameters:
+        - name: page
+          in: query
+          description: Current Page
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        sku:
+                          description: SKU
+                          format: string
+                          default: SK-123456789
+                        images:
+                          description: Variant Image
+                          format: string
+                          default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+                        stockAmount:
+                          description: Stock Amount
+                          format: integer
+                          default: "0"
+                        product_id:
+                          description: Product ID
+                          format: string
+                          default: 20d338931e
+                        price:
+                          description: Price
+                          format: integer
+                          default: "0"
+                        name:
+                          description: Variant Name
+                          format: string
+                          default: Boyut/Ebat
+                        status:
+                          description: Status
+                          format: integer
+                          default: "0"
+                        barcode:
+                          description: Barcode
+                          format: string
+                          default: BR-1234567890
+                        remainingAmount:
+                          description: Remaning Amount
+                          format: integer
+                          default: "0"
+                        lines:
+                          type: array
+                          items:
+                            properties:
+                              product_stock_item_id:
+                                format: string
+                              custom_field_values_id:
+                                format: string
+                            type: object
+                        created_at:
+                          description: Created Date
+                          format: date
+                          default: 2022-01-01 00:00
+                        updated_at:
+                          description: Updated Date
+                          format: date
+                          default: 2022-01-01 00:00
+                        deleted_at:
+                          description: Deleted Date
+                          format: date
+                          default: 2022-01-01 00:00
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/productVariant/{id}":
+    get:
+      tags:
+        - Products Endpoints
+      summary: Get Product Variant By Id
+      description: Get productVariant by id
+      operationId: bbf22e4149862dca954ca2a2d159303c
+      parameters:
+        - name: id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  sku:
+                    description: SKU
+                    format: string
+                    default: SK-123456789
+                  images:
+                    description: Variant Image
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+                  stockAmount:
+                    description: Stock Amount
+                    format: integer
+                    default: "0"
+                  product_id:
+                    description: Product ID
+                    format: string
+                    default: 20d338931e
+                  price:
+                    description: Price
+                    format: integer
+                    default: "0"
+                  name:
+                    description: Variant Name
+                    format: string
+                    default: Boyut/Ebat
+                  status:
+                    description: Status
+                    format: integer
+                    default: "0"
+                  barcode:
+                    description: Barcode
+                    format: string
+                    default: BR-1234567890
+                  remainingAmount:
+                    description: Remaning Amount
+                    format: integer
+                    default: "0"
+                  lines:
+                    type: array
+                    items:
+                      properties:
+                        product_stock_item_id:
+                          format: string
+                        custom_field_values_id:
+                          format: string
+                      type: object
+                  created_at:
+                    description: Created Date
+                    format: date
+                    default: 2022-01-01 00:00
+                  updated_at:
+                    description: Updated Date
+                    format: date
+                    default: 2022-01-01 00:00
+                  deleted_at:
+                    description: Deleted Date
+                    format: date
+                    default: 2022-01-01 00:00
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - Products Endpoints
+      summary: Update Product Variant
+      description: Update productVariant
+      operationId: 5d4e46ba5cfeaad35cb6b3a998599773
+      parameters:
+        - name: id
+          in: path
+          description: Variant ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductVariantUpdateRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  sku:
+                    description: SKU
+                    format: string
+                    default: SK-123456789
+                  images:
+                    description: Variant Image
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+                  stockAmount:
+                    description: Stock Amount
+                    format: integer
+                    default: "0"
+                  price:
+                    description: Price
+                    format: integer
+                    default: "0"
+                  name:
+                    description: Variant Name
+                    format: string
+                    default: Boyut/Ebat
+                  status:
+                    description: Status
+                    format: integer
+                    default: "0"
+                  barcode:
+                    description: Barcode
+                    format: string
+                    default: BR-1234567890
+                  remainingAmount:
+                    description: Remaning Amount
+                    format: integer
+                    default: "0"
+                  is_transferred:
+                    description: is_transferred
+                    format: integer
+                    default: "0"
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - Products Endpoints
+      summary: Delete Product Variant
+      description: Delete productVariant
+      operationId: 58a638410344ec0727b69a205cb63269
+      parameters:
+        - name: id
+          in: path
+          description: Variant ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  sku:
+                    description: SKU
+                    format: string
+                    default: SK-123456789
+                  images:
+                    description: Variant Image
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+                  stockAmount:
+                    description: Stock Amount
+                    format: integer
+                    default: "0"
+                  product_id:
+                    description: Product ID
+                    format: string
+                    default: 20d338931e
+                  price:
+                    description: Price
+                    format: integer
+                    default: "0"
+                  name:
+                    description: Variant Name
+                    format: string
+                    default: Boyut/Ebat
+                  status:
+                    description: Status
+                    format: integer
+                    default: "0"
+                  barcode:
+                    description: Barcode
+                    format: string
+                    default: BR-1234567890
+                  remainingAmount:
+                    description: Remaning Amount
+                    format: integer
+                    default: "0"
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/productVariant":
+    post:
+      tags:
+        - Products Endpoints
+      summary: Create Product Variant
+      description: Create productVariant
+      operationId: 76b47c039c983f750ee5b917314a8e78
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductVariantRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  sku:
+                    description: SKU
+                    format: string
+                    default: SK-123456789
+                  images:
+                    description: Variant Image
+                    format: string
+                    default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+                  stockAmount:
+                    description: Stock Amount
+                    format: integer
+                    default: "0"
+                  product_id:
+                    description: Product ID
+                    format: string
+                    default: 20d338931e
+                  price:
+                    description: Price
+                    format: integer
+                    default: "0"
+                  name:
+                    description: Variant Name
+                    format: string
+                    default: Boyut/Ebat
+                  status:
+                    description: Status
+                    format: integer
+                    default: "0"
+                  barcode:
+                    description: Barcode
+                    format: string
+                    default: BR-1234567890
+                  remainingAmount:
+                    description: Remaning Amount
+                    format: integer
+                    default: "0"
+                  is_transferred:
+                    format: booled
+                    default: false
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/productsImages":
+    get:
+      tags:
+        - Products Endpoints
+      summary: Get Product Images
+      description: Get all products Images
+      operationId: 3594ab6b0218f1ab895979c5bd9af053
+      parameters:
+        - name: page
+          in: query
+          description: Current Page
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        imageName:
+                          description: Image Name
+                          format: string
+                          default: Image Name
+                        path:
+                          description: Image Path
+                          format: string
+                          default: Image Path
+                        product_id:
+                          description: Product ID
+                          format: string
+                          default: 20d338931e
+                        created_at:
+                          description: Created Date
+                          format: date
+                          default: 2022-01-01 00:00
+                        updated_at:
+                          description: Updated Date
+                          format: date
+                          default: 2022-01-01 00:00
+                      type: object
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - Products Endpoints
+      summary: Create Product Image
+      description: Create productImages
+      operationId: 67b502bdbfaf7a5af6e98eec922ac54b
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductImageRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  imageName:
+                    description: Image Name
+                    format: string
+                    default: Image Name
+                  path:
+                    description: Image Path
+                    format: string
+                    default: Image Path
+                  product_id:
+                    description: Product ID
+                    format: string
+                    default: 20d338931e
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/productsImages/{id}":
+    get:
+      tags:
+        - Products Endpoints
+      summary: Get Product Image By Id
+      description: Get ProductImage by id
+      operationId: eda703ddc0bf0aca9425a3862cc0d46a
+      parameters:
+        - name: id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  imageName:
+                    description: Image Name
+                    format: string
+                    default: Image Name
+                  path:
+                    description: Image Path
+                    format: string
+                    default: Image Path
+                  product_id:
+                    description: Product ID
+                    format: string
+                    default: 20d338931e
+                  created_at:
+                    description: Created Date
+                    format: date
+                    default: 2022-01-01 00:00
+                  updated_at:
+                    description: Updated Date
+                    format: date
+                    default: 2022-01-01 00:00
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - Products Endpoints
+      summary: Update Product Image
+      description: Update ProductImages
+      operationId: fdc43c892cf230267bf5290865842d23
+      parameters:
+        - name: id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductImageRequest"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  imageName:
+                    description: Image Name
+                    format: string
+                    default: Image Name
+                  path:
+                    description: Image Path
+                    format: string
+                    default: Image Path
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - Products Endpoints
+      summary: Delete Product Image
+      description: Delete ProductImage
+      operationId: 1186b7f9234fb7ee1546153a44e704cb
+      parameters:
+        - name: id
+          in: path
+          description: Image ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  imageName:
+                    description: Image Name
+                    format: string
+                    default: Image Name
+                  path:
+                    description: Image Path
+                    format: string
+                    default: Image Path
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/productsImagesUpload":
+    post:
+      tags:
+        - Products Endpoints
+      summary: Post Image Data
+      description: Create productImagesUpload
+      operationId: 15b3376a860cb4fdfb506f3fd782ee1b
+      parameters:
+        - name: imageName
+          in: query
+          description: Image Name
+          required: false
+          schema:
+            type: string
+        - name: product_id
+          in: query
+          description: ProducID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - file
+              properties:
+                file:
+                  description: file to upload
+                  type: object
+              type: object
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  imageName:
+                    description: Image Name
+                    format: string
+                    default: Image Name
+                  path:
+                    description: Image Path
+                    format: string
+                    default: Image Path
+                  product_id:
+                    description: Product ID
+                    format: string
+                    default: 20d338931e
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+  "/api/v2/oauth/token":
+    post:
+      tags:
+        - Authorization Endpoints
+      summary: Get Access Token
+      description: Get access token for user
+      operationId: 5490773623b6e7d645b3668f5eed1102
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              "$ref": "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login success
+          content:
+            application/json:
+              schema:
+                properties:
+                  token_type:
+                    format: string
+                    default: Bearer
+                  expires_in:
+                    format: string
+                    default: "31622390"
+                  access_token:
+                    format: string
+                    default: sqcxwf5ws1h0y9pb1lewsqcxwf5ws1h0y9pb1lewsqcxwf5ws1h0y9pb1lew
+                  refresh_token:
+                    format: string
+                    default: iou6y1e386hm08htcgxsiou6y1e386hm08htcgxsiou6y1e386hm08htcgxs
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+  "/api/v2/userCreate":
+    post:
+      tags:
+        - Authorization Endpoints
+      summary: Create New User
+      description: User Create
+      operationId: 8e70870681d8a57432949c7f0dd6eddb
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              "$ref": "#/components/schemas/RegisterRequest"
+      responses:
+        "200":
+          description: User Create
+          content:
+            application/json:
+              schema:
+                properties:
+                  "4":
+                    format: integer
+                    default: user_type
+                  name:
+                    format: string
+                    default: Name
+                  email:
+                    format: string
+                    default: E-Mail
+                  password:
+                    format: string
+                    default: Password
+                type: object
+        "401":
+          description: fail
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApiRequestException"
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    ApiRequestException:
+      properties:
+        status:
+          description: status
+          format: integer
+          default: "401"
+        message:
+          description: message
+          format: string
+          default: Error Description
+      type: object
+    ArasCargoClientRequest:
+      properties:
+        provider_name:
+          format: string
+          default: Provider
+        api_username:
+          format: string
+          default: ClientId
+        api_password:
+          format: string
+          default: Client Screet
+      type: object
+    BrandRequest:
+      properties:
+        name:
+          description: Brand Name
+          format: string
+          default: Test Brand
+        description:
+          description: Brand Description
+          format: string
+          default: Test Brand Description
+        is_transferred:
+          description: Brand Transferred
+          format: booled
+          default: false
+      type: object
+    CargoBarcodeRequest:
+      properties:
+        provider_name:
+          format: string
+          default: Aras
+        integrationcode:
+          description: Cargo_Key Numaranız
+          format: string
+          default: "1671914304"
+      type: object
+    CargoClientRequest:
+      properties:
+        provider:
+          format: string
+          default: Aras
+        username:
+          format: string
+          default: Api Username
+        password:
+          format: string
+          default: Api Password
+      type: object
+    CargoRequest:
+      properties:
+        provider_name:
+          format: string
+          default: Aras
+        cargo_key:
+          format: cargo_key
+          default: ORN_KRAGO_123
+        cargo_count:
+          format: number
+          default: "1"
+        cargo_desi:
+          format: number
+          default: "1"
+        invoice_key:
+          format: invoice_key
+          default: ORN_FATURA_123
+        receiver_name:
+          format: string
+          default: Hasan Basri KOÇ
+        receiver_address:
+          format: string
+          default: Yenişehir Mah. Kardeşler Cad. Cumhuriyet Teknokent No 7/2
+        receiver_postalcode:
+          format: string
+          default: "58090"
+        receiver_district:
+          format: string
+          default: Merkez
+        receiver_city:
+          format: string
+          default: Sivas
+        receiver_country:
+          format: string
+          default: Türkiye
+        receiver_phone:
+          format: string
+          default: "05412246171"
+        receiver_email:
+          format: string
+          default: hasan.koc@dizayn.net.tr
+        volume_metric:
+          format: string
+          default: "1"
+        package_description:
+          format: string
+          default: Örnek Kargo Açıklaması
+        integration_code:
+          format: string
+          default: "0212101371387"
+        piece_details:
+          type: array
+          items:
+            properties:
+              volumetricweight:
+                format: number
+                default: "0"
+              weight:
+                format: number
+                default: "0"
+              barcodenumber:
+                format: number
+                default: "0"
+              productnumber:
+                format: number
+                default: "0"
+              description:
+                format: string
+                default: Paket Açıklaması
+            type: object
+      type: object
+    CategoryRequest:
+      properties:
+        name:
+          format: string
+        description:
+          format: string
+        parent_id:
+          format: string
+          default: "null"
+        price_percent:
+          format: number
+          default: "0"
+        price:
+          format: number
+          default: "0"
+        is_transferred:
+          format: booled
+          default: "false"
+      type: object
+    CustomFieldRequest:
+      properties:
+        name:
+          description: Name
+          format: string
+          default: Test Custom Field
+        is_transferred:
+          description: is_transferred
+          format: integer
+          default: "0"
+        values:
+          type: array
+          items:
+            properties:
+              name:
+                description: Name
+                format: string
+                default: Test Custom Field Value
+              is_transferred:
+                description: is_transferred
+                format: integer
+                default: "0"
+            type: object
+      type: object
+    CustomFieldValuesRequest:
+      properties:
+        values:
+          type: array
+          items:
+            properties:
+              name:
+                description: Name
+                format: string
+                default: Blue
+              is_transferred:
+                description: is_transferred
+                format: integer
+                default: "0"
+            type: object
+      type: object
+    GetCargoTrackingRequest:
+      properties:
+        provider_name:
+          format: string
+          default: Provider
+        api_username:
+          format: string
+          default: ClientId
+        api_password:
+          format: string
+          default: Client Screet
+      type: object
+    LoginRequest:
+      properties:
+        client_id:
+          format: string
+        client_secret:
+          format: string
+        grant_type:
+          format: string
+          default: password
+        username:
+          format: string
+        password:
+          format: string
+      type: object
+    MNGCargoClientRequest:
+      properties:
+        provider_name:
+          format: string
+          default: Provider
+        client_id:
+          format: string
+          default: client_id
+        client_secret:
+          format: string
+          default: Client Screet
+        customer_number:
+          format: string
+          default: Customer Number
+        password:
+          format: string
+          default: Password
+      type: object
+    OrderRequest:
+      properties:
+        filters:
+          type: array
+          items:
+            properties:
+              field:
+                description: Order Filtered Field
+                format: string
+                default: is_transffered
+              operator:
+                description: Order Filtered Operator
+                format: integer
+                default: "0"
+              value:
+                description: Order Filtered Value
+                format: string
+                default: "true"
+            type: object
+        status:
+          description: Order Filtered Status
+          format: string
+          default: finished
+        startDate:
+          description: Start Date
+          format: date
+          default: "2022-01-01"
+        endDate:
+          description: End Date
+          format: date
+          default: "2022-12-30"
+      type: object
+    PrepareCargoRequest:
+      properties:
+        provider:
+          format: string
+        cargo_key:
+          format: string
+        invoice_key:
+          format: string
+        integration_code:
+          format: string
+        receiver_name:
+          format: string
+        receiver_identification_no:
+          format: string
+        receiver_address:
+          format: string
+        receiver_postalcode:
+          format: string
+        receiver_district:
+          format: string
+        receiver_district_code:
+          format: string
+        receiver_city:
+          format: string
+        receiver_city_code:
+          format: string
+        receiver_country:
+          format: string
+        receiver_phone:
+          format: string
+        receiver_email:
+          format: string
+        package_description:
+          format: string
+        piece_details:
+          type: array
+          items:
+            properties:
+              volumetricweight:
+                format: number
+              weight:
+                format: number
+              desi:
+                format: number
+              kg:
+                format: number
+              barcodenumber:
+                format: number
+              productnumber:
+                format: number
+              description:
+                format: string
+            type: object
+      type: object
+    PrepareCargoResponse:
+      properties:
+        provider:
+          format: string
+        cargo_key:
+          format: string
+        invoice_key:
+          format: string
+        integration_code:
+          format: string
+        receiver_name:
+          format: string
+        receiver_identification_no:
+          format: string
+        receiver_address:
+          format: string
+        receiver_postalcode:
+          format: string
+        receiver_district:
+          format: string
+        receiver_district_code:
+          format: string
+        receiver_city:
+          format: string
+        receiver_city_code:
+          format: string
+        receiver_country:
+          format: string
+        receiver_phone:
+          format: string
+        receiver_email:
+          format: string
+        package_description:
+          format: string
+        piece_details:
+          type: array
+          items:
+            properties:
+              volumetricweight:
+                format: number
+              weight:
+                format: number
+              desi:
+                format: number
+              kg:
+                format: number
+              barcodenumber:
+                format: number
+              productnumber:
+                format: number
+              description:
+                format: string
+            type: object
+      type: object
+    ProductImageRequest:
+      properties:
+        imageName:
+          description: Image Name
+          format: string
+          default: Image Name
+        path:
+          description: Image Path
+          format: string
+          default: Image Path
+        product_id:
+          description: Product ID
+          format: string
+          default: 20d338931e
+      type: object
+    ProductRequest:
+      properties:
+        status:
+          description: Product status
+          format: boolean
+          default: "false"
+        is_variant:
+          description: Product variant status
+          format: boolean
+          default: "false"
+        name:
+          description: Product Name
+          format: string
+          default: Product Name
+        subtitle:
+          description: Product Sub Title
+          format: string
+          default: Product Sub Title
+        description:
+          description: Product Marketplace Description
+          format: string
+          default: Product Marketplace Description
+        barcode:
+          description: Barcode
+          format: string
+          default: BR-1234567890
+        sku:
+          description: SKU
+          format: string
+          default: SK-123456789
+        unit_code:
+          description: Unit Code
+          format: string
+          default: Adet
+        stock_amount:
+          description: Stock Amount
+          format: integer
+          default: "0"
+        remining_amount:
+          description: Remining Amount
+          format: integer
+          default: "0"
+        name_on_invoice:
+          description: Name On Invoice
+          format: string
+          default: Name On Invoice
+        price:
+          description: List Price
+          format: integer
+          default: "0"
+        purchase_price:
+          description: Purchase Price
+          format: integer
+          default: "0"
+        market_price:
+          description: Marketplace Price
+          format: integer
+          default: "0"
+        currency:
+          description: Curreny Type
+          format: string
+          default: TL
+        max_sales_amount:
+          description: Max Sales Amount
+          format: integer
+          default: "0"
+        stock_reduction_amount:
+          description: Stock Reduction Amount
+          format: integer
+          default: "0"
+        category_id:
+          description: Category ID
+          format: string
+          default: 20d338931e
+        brand_id:
+          description: Brand ID
+          format: string
+          default: 20d338931e
+        tax:
+          description: Tax Rate
+          format: integer
+          default: "18"
+        width:
+          description: Width
+          format: integer
+          default: "0"
+        height:
+          description: Height
+          format: integer
+          default: "0"
+        weight:
+          description: Weight
+          format: integer
+          default: "0"
+        length:
+          description: Length
+          format: integer
+          default: "0"
+        mpn:
+          description: MPN
+          format: string
+          default: MPN-123123123
+        is_entegrated:
+          description: is_integrated
+          format: integer
+          default: "0"
+        discount_option:
+          description: discount_option
+          format: integer
+          default: "0"
+      type: object
+    ProductVariantRequest:
+      properties:
+        sku:
+          description: SKU
+          format: string
+          default: SK-123456789
+        stockAmount:
+          description: Stock Amount
+          format: integer
+          default: "0"
+        product_id:
+          description: Product ID
+          format: string
+          default: 20d338931e
+        price:
+          description: Price
+          format: integer
+          default: "0"
+        name:
+          description: Variant Name
+          format: string
+          default: Boyut/Ebat
+        status:
+          description: Status
+          format: integer
+          default: "0"
+        barcode:
+          description: Barcode
+          format: string
+          default: BR-1234567890
+        remainingAmount:
+          description: Remaning Amount
+          format: integer
+          default: "0"
+        is_transferred:
+          description: Variant Transferred
+          format: string
+          default: "false"
+        customfieldvalues:
+          type: array
+          items:
+            properties:
+              customfieldvalueid:
+                format: string
+            type: object
+      type: object
+    ProductVariantUpdateRequest:
+      properties:
+        sku:
+          description: SKU
+          format: string
+          default: SK-123456789
+        images:
+          description: Variant Image
+          format: string
+          default: 606d98cde7ffd/products/606d9ed2842ee/1.jpg
+        stockAmount:
+          description: Stock Amount
+          format: integer
+          default: "0"
+        product_id:
+          description: Product ID
+          format: string
+          default: 20d338931e
+        price:
+          description: Price
+          format: integer
+          default: "0"
+        name:
+          description: Variant Name
+          format: string
+          default: Boyut/Ebat
+        status:
+          description: Status
+          format: integer
+          default: "0"
+        barcode:
+          description: Barcode
+          format: string
+          default: BR-1234567890
+        remainingAmount:
+          description: Remaning Amount
+          format: integer
+          default: "0"
+      type: object
+    RegisterRequest:
+      properties:
+        name:
+          description: name
+          format: string
+          default: firstname lastname
+        email:
+          description: email
+          format: string
+          default: email@example.com
+        password:
+          description: password
+          format: string
+          default: Pyr123**
+        user_type:
+          description: user_type
+          format: string
+          default: "4"
+      type: object
+    TicketRequest:
+      properties:
+        subject:
+          description: Ticket Subject
+          format: string
+          default: Subject
+        type:
+          description: Ticket Type Description
+          format: string
+          default: Type
+        description:
+          description: Ticket Description
+          format: string
+          default: description
+      type: object
+    UpdateProductRequest:
+      properties:
+        status:
+          description: Product status
+          format: boolean
+          default: "false"
+        is_variant:
+          description: Product variant status
+          format: boolean
+          default: "false"
+        name:
+          description: Product Name
+          format: string
+          default: Product Name
+        subtitle:
+          description: Product Sub Title
+          format: string
+          default: Product Sub Title
+        description:
+          description: Product Marketplace Description
+          format: string
+          default: Product Marketplace Description
+        barcode:
+          description: Barcode
+          format: string
+          default: BR-1234567890
+        sku:
+          description: SKU
+          format: string
+          default: SK-123456789
+        unit_code:
+          description: Unit Code
+          format: string
+          default: Adet
+        stock_amount:
+          description: Stock Amount
+          format: integer
+          default: "0"
+        remining_amount:
+          description: Remining Amount
+          format: integer
+          default: "0"
+        name_on_invoice:
+          description: Name On Invoice
+          format: string
+          default: Name On Invoice
+        price:
+          description: List Price
+          format: integer
+          default: "0"
+        purchase_price:
+          description: Purchase Price
+          format: integer
+          default: "0"
+        market_price:
+          description: Marketplace Price
+          format: integer
+          default: "0"
+        currency:
+          description: Curreny Type
+          format: string
+          default: TL
+        max_sales_amount:
+          description: Max Sales Amount
+          format: integer
+          default: "0"
+        stock_reduction_amount:
+          description: Stock Reduction Amount
+          format: integer
+          default: "0"
+        category_id:
+          description: Category ID
+          format: string
+          default: 20d338931e
+        brand_id:
+          description: Brand ID
+          format: string
+          default: 20d338931e
+        tax:
+          description: Tax Rate
+          format: integer
+          default: "18"
+        width:
+          description: Width
+          format: integer
+          default: "0"
+        height:
+          description: Height
+          format: integer
+          default: "0"
+        weight:
+          description: Weight
+          format: integer
+          default: "0"
+        length:
+          description: Length
+          format: integer
+          default: "0"
+        mpn:
+          description: MPN
+          format: string
+          default: MPN-123123123
+        is_entegrated:
+          description: is_integrated
+          format: integer
+          default: "0"
+        discount_option:
+          description: discount_option
+          format: integer
+          default: "0"
+      type: object
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+tags:
+  - name: Authorization Endpoints
+  - name: Definitions Endpoints
+  - name: Products Endpoints
+  - name: Orders Endpoints
+  - name: Cargo Endpoints
